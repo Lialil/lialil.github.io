@@ -46,8 +46,7 @@ footer{
 
 #pole{	
 	height: 99%;
-	margin-top: 2px;
-	
+	margin-top: 2px;	
 	background: #fc0; 
 	outline: 2px solid #000; 
 }
@@ -89,7 +88,6 @@ header{
 	padding: 1%;		
 }
 
-
 footer{  	
 	border-top: 2px solid silver;	
 	margin-top: 10px;
@@ -122,11 +120,7 @@ footer{
 	min-height: 100%;	
 	margin-bottom: -10px;
 }
-
-}
-
-
- 
+} 
 
 
 
