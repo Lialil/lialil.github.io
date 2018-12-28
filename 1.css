@@ -24,9 +24,7 @@ body{
 }
 
 
-
-
-@media (min-width: 768px)  {
+@media (min-width: 900px)  {
 
 #main{
 	height:100%;
@@ -66,9 +64,7 @@ footer{
 }
 
 
-
-
-@media (max-width: 767px) {
+@media (max-width:400px){
 
 #main{
 	min-height:100%;
@@ -121,7 +117,6 @@ footer{
 	margin-bottom: -10px;
 }
 } 
-
 
 
 #page:after{
