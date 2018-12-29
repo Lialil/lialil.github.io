@@ -24,9 +24,6 @@ body{
 }
 
 
-
-@media only screen and (max-width: 900px) and (min-width: 600px){
-
 #main{
 	height:100%;
 	width:100%;
@@ -56,8 +53,12 @@ footer{
 }
 
 #block1{
-	width: 100%;	
+	width: 100%;
+	
+	
 }
+
+
 
 #pole{		
 	
@@ -65,46 +66,8 @@ footer{
 	background: #fc0; 
 	outline: 2px solid #000;	
 }
-} 
 
 
-@media only screen and (max-width: 600px) {
-	#main{
-		height:100%;
-		width:100%;
-		display: flex;
-	}
-
-	header{
-		height: 100%;
-		border-right: 2px solid silver;			
-	}
-
-	footer{  
-		height: 100%;
-		border-left: 2px solid silver;	
-	}
-
-	#pole{	
-		height: 99%;
-		margin-top: 2px;	
-		background: #fc0; 
-		outline: 2px solid #000; 
-	}
-
-	#block1{
-		
-		height: 100%;
-		margin-left: auto;
-		margin-right: auto;	
-	}
-
-	#block{
-		min-height: 100%;
-		/*width: 50px;*/
-		background-color: #fff;	
-	}
-}
 
 
 #page{

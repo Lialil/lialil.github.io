@@ -23,7 +23,30 @@ body{
 	font-family: Comic Sans MS, sans-serif;
 }
 
+.pole {
+	background: #fc0;
+	height: 100%;
+}
 
+.out {
+	overflow: hidden;
+}
+
+.main {
+	height: 100%;
+	width: 100%;
+}
+
+	.horisontal .main { display: flex; }
+	.horisontal .block { height: 100%; }
+
+	.vertical .main { display: block; }
+	.vertical .block { width: 100%;	}
+
+
+
+
+/*
 
 @media only screen and (max-width: 900px) and (min-width: 600px){
 
@@ -49,6 +72,19 @@ footer{
 
 }
 
+#main {
+	height: 100%;
+	width: 100%;
+}
+
+	.horisontal #main {
+		display: flex;
+	}
+
+	.vertical #main {
+		display: block;
+	}
+
 #block{
 	height: 30px;
 	min-width: 100%;
@@ -65,8 +101,8 @@ footer{
 	background: #fc0; 
 	outline: 2px solid #000;	
 }
-} 
-
+} */
+/*
 
 @media only screen and (max-width: 600px) {
 	#main{
@@ -101,11 +137,11 @@ footer{
 
 	#block{
 		min-height: 100%;
-		/*width: 50px;*/
+		width: 50px;
 		background-color: #fff;	
 	}
 }
-
+*/
 
 #page{
 	min-height: 100%;	
