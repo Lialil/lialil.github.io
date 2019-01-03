@@ -1,24 +1,29 @@
-$(document).ready(function () {
+$(document).ready(function() {
 	let changeBlock = function() {
-		let heightWithScrollBars = $(window).outerHeight(true);
-		let widthWithScrollBars = $(window).outerWidth(true);
-		$('body').removeClass();
-		$('.middle').css('width', '').css('height', '');
-		$('.span').css('width', '').css('height', '');
-		$('.out').css('width', '').css('height', '');
-		if (heightWithScrollBars < widthWithScrollBars ) {
-			$('body').addClass('horisontal');
-			let x = $('.middle').height();	
-			$('.middle').css({'width': x});
-			$('.out').css({ 'width': (widthWithScrollBars -heightWithScrollBars)/2 });									
-		}				
+		const $w = $(window),
+			  $out = $('.out'),
+			  $body = $('body'),
+			  $middle = $('.middle');
+
+		const widthWithScrollBars = $w.outerWidth(true),
+			  heightWithScrollBars = $w.outerHeight(true);
+
+		$body.removeClass();
+
+		if (heightWithScrollBars < widthWithScrollBars) {
+			$body.addClass('horisontal');
+			let x = $middle.height();
+			$middle.css({'width': x, 'height': ''});
+			$out.css({'width': (widthWithScrollBars - heightWithScrollBars) / 2, 'height': ''});
+		}
 		else {
-			$('body').addClass('vertical');
-			let x = $('.middle').width();			
-			$('.middle').css({'height': x});
-			$('.out').css({'height':(heightWithScrollBars - widthWithScrollBars)/2 });			
+			$body.addClass('vertical');
+			let x = $middle.width();
+			$middle.css({'height': x, 'width': ''});
+			$out.css({'height': (heightWithScrollBars - widthWithScrollBars) / 2, 'width': ''});
 		}
 	};
+	
 	$(window).resize(changeBlock);
-	changeBlock();	
+	changeBlock();
 })
