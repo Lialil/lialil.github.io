@@ -1,19 +1,11 @@
 $(document).ready(() => {
   const changeBlock = function () {
     const $w = $(window);
-
-
     const $out = $('.out');
-
-
     const $body = $('body');
-
-
     const $middle = $('.middle');
 
     const widthWithScrollBars = $w.outerWidth(true);
-
-
     const heightWithScrollBars = $w.outerHeight(true);
 
     $body.removeClass();
