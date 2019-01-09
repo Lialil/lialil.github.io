@@ -1,0 +1,27 @@
+{
+  "name": "2048",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lialil/lialil.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lialil/lialil.github.io/issues"
+  },
+  "homepage": "https://github.com/lialil/lialil.github.io#readme",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  },
+  "dependencies": {
+    "eslint-config-airbnb": "^17.1.0"
+  }
+}
