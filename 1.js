@@ -33,4 +33,7 @@ $(document).ready(() => {
 
   $(window).resize(changeBlock);
   changeBlock();
+
 });
+
+
