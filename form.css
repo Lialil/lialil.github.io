@@ -10,7 +10,7 @@ html {height: 100%;}
 body {
   background: #f7f7f8;
   font-family: 'Segoe UI', sans-serif;
-  font-size: 1em;
+  font-size: 20%
   height: 100%;
   line-height: 180%;
   width: 100%;
@@ -44,16 +44,10 @@ footer {
 
 .horisontal .main { display: flex; }
 .horisontal .block { height: 100%; }
-
-.horisontal .out {
-  max-width: 120px;
-  word-wrap: break-word; }
+.horisontal .out { max-width: 120px; word-wrap: break-word; }
 .horisontal .middle { margin: auto; }
 	
 .vertical .main { display: block; }
 .vertical .block { width: 100%;	}
 .vertical .out { max-height: 60px; }
-
-.vertical .foot {
-  bottom: 0;
-  position: absolute; }
+.vertical .foot { bottom: 0; position: absolute; }
