@@ -138,7 +138,7 @@ rl.on('line', (line) => {
       mirror(rotation, pole);
       algorithm(rotation);
       mirror(pole, rotation);
-	  break;
+      break;
     case choise[2]:
       roll();
       algorithm(rotation);
