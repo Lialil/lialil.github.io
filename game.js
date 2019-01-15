@@ -136,21 +136,21 @@ rl.on('line', (line) => {
       break;
     case choise[1]:
       mirror(rotation, pole);
-		    algorithm(rotation);
-		    mirror(pole, rotation);
-		    break;
+	  algorithm(rotation);
+	  mirror(pole, rotation);
+	  break;
     case choise[2]:
       roll();
-		    algorithm(rotation);
-		    comeBack();
-		    break;
+      algorithm(rotation);
+      comeBack();
+      break;
     case choise[3]:
       roll();
-		    mirror(pole, rotation);
-		    algorithm(pole);
-		    mirror(rotation, pole);
-		    comeBack();
-		    break;
+      mirror(pole, rotation);
+      algorithm(pole);
+      mirror(rotation, pole);
+      comeBack();
+      break;
     case choise[4]:
       rl.close();
       break;
