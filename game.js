@@ -3,28 +3,22 @@ const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const choise = ['l', 'r', 'u', 'd', 'q'];
-// let choise  = ['left', 'right','up', 'down', 'exit'];
+// const choise  = ['left', 'right','up', 'down', 'exit'];
 
 const playingField = [];
-const rotation = [];
+const duplicate = [];
 const n = 4;
 
 let help; let i; let k; let j; let l; let m; let q; let over;
-
-// const playingField = {
-//   0: 9, 1: 4, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 9, 9: 8, 10: 12, 11: 10, 12: 11, 13: 0, 14: 15, 15: 9,
-// };
 
 function rand(field) {
   const random = Math.floor(Math.random() * field.length);
   return random;
 }
 function newField() {
-  const d = 0;
   for (i = 0; i < n * n; i += 1) {
-	  playingField[i] = d;
+	  playingField[i] = 0;
   }
-  const r = rand(playingField);
   const first = rand(playingField);
   let second = first;
   playingField[first] = 2;
@@ -88,8 +82,7 @@ function algorithm(field) {
         arr.push(i);
       }
     }
-    const rr = rand(arr);
-    field[arr[rr]] = 2;
+    field[arr[rand(arr)]] = 2;
   }
   over = 0;
   for (i = 0; i < n * n; i += n) {
@@ -119,24 +112,24 @@ function showing(field) {
     console.log(show.join('  '));
   }
 }
-function mirror(rotation, field) {
+function mirror(duplicate, field) {
   for (i = 0; i < n * n; i += n) {
     for (j = i, k = i + n - 1; j < i + n, k >= i; k -= 1, j += 1) {
-    	rotation[j] = field[k];
+    	duplicate[j] = field[k];
     }
   }
 }
-function roll(field) {
+function rotate(field) {
   for (i = k = 0; i < n, k < n * n; i += 1, k += n) {
     for (j = i - n, l = k; j < i + n * n - n, l < k + n; j += n, l += 1) {
-      rotation[j + n] = field[l];
+      duplicate[j + n] = field[l];
     }
   }
 }
 function comeBack(field) {
   for (i = k = 0; i < n, k < n * n; i += 1, k += n) {
     for (j = i - n, l = k; j < i + n * n - n, l < k + n; j += n, l += 1) {
-      field[l] = rotation[j + n];
+      field[l] = duplicate[j + n];
     }
   }
 }
@@ -153,20 +146,20 @@ rl.on('line', (line) => {
       algorithm(playingField);
       break;
     case choise[1]:
-      mirror(rotation, playingField);
-      algorithm(rotation);
-      mirror(playingField, rotation);
+      mirror(duplicate, playingField);
+      algorithm(duplicate);
+      mirror(playingField, duplicate);
       break;
     case choise[2]:
-      roll(playingField);
-      algorithm(rotation);
+      rotate(playingField);
+      algorithm(duplicate);
       comeBack(playingField);
       break;
     case choise[3]:
-      roll(playingField);
-      mirror(playingField, rotation);
+      rotate(playingField);
+      mirror(playingField, duplicate);
       algorithm(playingField);
-      mirror(rotation, playingField);
+      mirror(duplicate, playingField);
       comeBack(playingField);
       break;
     case choise[4]:
