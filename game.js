@@ -4,25 +4,25 @@ const rl = readline.createInterface(process.stdin, process.stdout);
 
 const choise = ['l', 'r', 'u', 'd', 'q'];
 // let choise  = ['left', 'right','up', 'down', 'exit'];
+
 const playingField = [];
 const rotation = [];
 const n = 4;
 
-let help; let i; let k; let j; let l; let m; let q;
+let help; let i; let k; let j; let l; let m; let q; let over;
+
 // const playingField = {
-//   0: 0, 1: 4, 2: 2, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0,
+//   0: 9, 1: 4, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 9, 9: 8, 10: 12, 11: 10, 12: 11, 13: 0, 14: 15, 15: 9,
 // };
 
 function rand(field) {
   const random = Math.floor(Math.random() * field.length);
   return random;
 }
-
 function newField() {
   const d = 0;
   for (i = 0; i < n * n; i += 1) {
 	  playingField[i] = d;
-	  // d=d+1;
   }
   const r = rand(playingField);
   const first = rand(playingField);
@@ -33,7 +33,6 @@ function newField() {
   }
   playingField[second] = 2;
 }
-
 function algorithm(field) {
   if (field[0] === 0) { help = true; }
   let check = 0;
@@ -41,15 +40,11 @@ function algorithm(field) {
     for (j = i; j < i + n; j += 1) {
       if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
         check += 1;
-        console.log('be');
-      } else if (field[j] != 0 && field[j - 1] == 0) {
+      } else if (field[j] != 0 && field[j - 1] == 0 && j - 1 >= i) {
       	check += 1;
-      	console.log('beeeee');
       }
     }
   }
-  console.log(check);
-
   for (i = 0; i < n * n; i += n) {
     for (j = i; j < i + n; j += 1) {
       let w = j + 1;
@@ -75,7 +70,6 @@ function algorithm(field) {
       }
     }
   }
-
   for (i = 0; i < n * n; i += n) {
     for (j = i; j < i + n; j += 1) {
       if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
@@ -87,8 +81,6 @@ function algorithm(field) {
       }
     }
   }
-
-
   if (check > 0) {
     const arr = [];
     for (i = 0; i < n * n; i += 1) {
@@ -96,15 +88,10 @@ function algorithm(field) {
         arr.push(i);
       }
     }
-    console.log('arr', arr);
-
     const rr = rand(arr);
-    console.log('rr', arr[rr]);
     field[arr[rr]] = 2;
   }
-
-
-  let over = 0;
+  over = 0;
   for (i = 0; i < n * n; i += n) {
     for (j = i; j < i + n; j += 1) {
       if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
@@ -116,14 +103,13 @@ function algorithm(field) {
       }
     }
   }
-
+}
+function overCheck() {
   if (over === 0) {
     console.log('Game over.');
-    // rl.close();
+    rl.close();
   }
 }
-
-
 function showing(field) {
   for (i = 0; i < n * n; i += n) {
     const show = [];
@@ -133,7 +119,6 @@ function showing(field) {
     console.log(show.join('  '));
   }
 }
-
 function mirror(rotation, field) {
   for (i = 0; i < n * n; i += n) {
     for (j = i, k = i + n - 1; j < i + n, k >= i; k -= 1, j += 1) {
@@ -192,5 +177,6 @@ rl.on('line', (line) => {
       break;
   }
   showing(playingField);
+  overCheck();
   rl.prompt();
 }).on('close', () => { process.exit(0); });
