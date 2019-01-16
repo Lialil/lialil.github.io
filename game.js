@@ -8,13 +8,15 @@ const choise = ['l', 'r', 'u', 'd', 'q'];
 const rotation = [];
 const pole = [];
 
-const n = 16;
-const m = 4;
+const n = 4;
 
-let help; let i; let k; let j; let l;
-// const pole = {0:0,1:2,2:2,3:0,4:0,5:2,6:4,7:2,8:2,9:2,10:4,11:4,12:2,13:0,14:2,15:2};
-// const pole = {0: 7, 1: 2, 2: 0, 3: 3, 4: 9, 5: 3, 6: 8, 7: 1, 8: 2, 9: 1, 10: 9, 11: 5, 12: 2, 13: 5, 14: 3, 15: 6};
-for (i = 0; i < m * m; i += 1) {
+let help; let i; let k; let j; let l; let k1; let q;
+// const pole = {
+//   0: 7, 1: 2, 2: 5, 3: 3, 4: 9, 5: 3, 6: 8, 7: 1, 8: 2, 9: 1, 10: 9, 11: 5, 12: 2, 13: 5, 14: 3, 15: 6,
+// };
+
+
+for (i = 0; i < n * n; i += 1) {
   pole[i] = 0;
 }
 const rand = Math.floor(Math.random() * pole.length);
@@ -23,104 +25,112 @@ const rand2 = Math.floor(Math.random() * pole.length);
 pole[rand2] = 2;
 
 function algorithm(pole) {
-  let arr1 = 0;
-  for (i = 0; i < m * m; i += m) {
-    for (j = i; j < i + m; j++) {
-      if (pole[j] === pole[j + 1] && pole[j] !== 0 && j + 1 < i + 4 || pole[j - 1] === 0 && j - 1 > i) {
-        arr1 += 1;
+  let check = 0;
+  for (i = 0; i < n * n; i += n) {
+    for (j = i; j < i + n; j += 1) {
+      if (pole[j] === pole[j + 1] && pole[j] !== 0 && j + 1 < i + n) {
+        check += 1;
+      } else if (pole[j - 1] === 0 && j - 1 > i) {
+      	check += 1;
       }
     }
   }
-
   if (pole[0] === 0) { help = true; }
-
-  for (i = 0; i < m * m; i += m) {
-    for (j = i; j < i + m; j += 1) {
-      if (pole[j] === pole[j + 1] && j + 1 < i + 4) {
-        pole[j] = pole[j] * 2;
-        pole[j + 1] = 0;
-        if (pole[j - 1] === 0 && pole[j - 2] === 0 && j - 1 >= i && j - 2 >= i) {
-          pole[j - 2] = pole[j];
-          pole[j] = 0;
-        } else if (pole[j - 1] === 0 && j - 1 >= i) {
-          pole[j - 1] = pole[j];
-          pole[j] = 0;
+  for (i = 0; i < n * n; i += n) {
+    for (j = i; j < i + n; j += 1) {
+      let w = j + 1;
+      if (pole[j] === 0) {
+        if (pole[j + 1] === 0 && j + 1 < i + n) {
+          while (pole[w] === 0 && w < i + n) {
+            w += 1;
+          }
+          if (w < i + n) {
+            for (k = j, q = w; q < i + n; q += 1, k += 1) {
+              pole[k] = pole[q];
+            }
+            for (k1 = i + n - 1; k1 >= i + n - w + j; k1 -= 1) {
+              pole[k1] = 0;
+            }
+          }
+        } else {
+          for (k = j; k < i + n - 1; k += 1) {
+            pole[k] = pole[k + 1];
+          }
+          pole[i + n - 1] = 0;
         }
-      } else if (pole[j] === pole[j + 2] && pole[j + 1] === 0 && j + 2 < i + 4 && j + 1 < i + 4) {
+      }
+    }
+  }
+  for (i = 0; i < n * n; i += n) {
+    for (j = i; j < i + n; j += 1) {
+      if (pole[j] === pole[j + 1] && pole[j] !== 0 && j + 1 < i + n) {
         pole[j] = pole[j] * 2;
-        pole[j + 1] = 0;
-        pole[j + 2] = 0;
-        if (pole[j - 1] === 0 && j - 1 >= i) {
-          pole[j - 1] = pole[j];
-          pole[j] = 0;
+        for (k = j + 1; k < i + n - 1; k += 1) {
+          pole[k] = pole[k + 1];
         }
-      } else if (pole[j] === pole[j + 3] && pole[j + 1] === 0 && pole[j + 2] === 0 && j + 3 < i + 4 && j + 3 < i + 4 && j + 1 < i + 4) {
-        pole[j] = pole[j] * 2;
-        pole[j + 1] = 0;
-        pole[j + 2] = 0;
-        pole[j + 3] = 0;
-      } else if (pole[j - 1] === 0 && pole[j - 2] === 0 && pole[j - 3] === 0 && j - 1 >= i && j - 2 >= i && j - 3 >= i) {
-        pole[j - 3] = pole[j];
-        pole[j] = 0;
-      } else if (pole[j - 1] === 0 && pole[j - 2] === 0 && j - 1 >= i && j - 2 >= i) {
-        pole[j - 2] = pole[j];
-        pole[j] = 0;
-      } else if (pole[j - 1] === 0 && j - 1 >= i) {
-        pole[j - 1] = pole[j];
-        pole[j] = 0;
+        pole[i + n - 1] = 0;
       }
     }
   }
 
-  if (arr1 > 0 || help === true) {
+  if (check > 0 || help === true) {
     const arr = [];
-    for (i = 0; i < m * m; i += 1) {
+    for (i = 0; i < n * n; i += 1) {
       if (pole[i] === 0) {
         arr.push(i);
       }
     }
-    const rand = Math.floor(Math.random() * arr.length);
-    pole[arr[rand]] = 2;
+    const rand3 = Math.floor(Math.random() * arr.length);
+    pole[arr[rand3]] = 2;
   }
 
-  let arr2 = 0;
-  for (i = 0; i < m * m; i += m) {
-    for (j = i; j < i + m; j += 1) {
-      if (pole[j] === pole[j + 1] && pole[j] !== 0 && j + 1 < i + 4 || pole[j] === pole[j + 4] && j < 12 && pole[j] !== 0 || pole[j] === 0) {
-        arr2 += 1;
+  let over = 0;
+  for (i = 0; i < n * n; i += n) {
+    for (j = i; j < i + n; j += 1) {
+      if (pole[j] === pole[j + 1] && pole[j] !== 0 && j + 1 < i + n) {
+        over += 1;
+      } else if (pole[j] === pole[j + n] && j < n * n - n && pole[j] !== 0) {
+      	over += 1;
+      } else if (pole[j] === 0) {
+      	over += 1;
       }
     }
   }
 
-  if (arr2 === 0) {
+  if (over === 0) {
     console.log('Game over.');
     rl.close();
   }
 }
 
 function showing(pole) {
-  for (i = 0; i < m * m; i += m) {
-    console.log(pole[i], pole[i + 1], pole[i + 2], pole[i + 3]);
+  for (i = 0; i < n * n; i += n) {
+    const show = [];
+    for (j = i; j < i + n; j += 1) {
+      show.push(pole[j]);
+    }
+    console.log(show.join('  '));
   }
 }
+
 function mirror(rotation, pole) {
-  for (i = 0; i < m * m; i += m) {
-    for (j = i, k = i + m - 1; j < i + m, k >= i; k -= 1, j += 1) {
-      rotation[j] = pole[k];
+  for (i = 0; i < n * n; i += n) {
+    for (j = i, k = i + n - 1; j < i + n, k >= i; k -= 1, j += 1) {
+    	rotation[j] = pole[k];
     }
   }
 }
 function roll() {
-  for (i = k = 0; i < m, k < m * m; i += 1, k += m) {
-    for (j = i - m, l = k; j < i + m * m - m, l < k + m; j += m, l += 1) {
-    	rotation[j + m] = pole[l];
+  for (i = k = 0; i < n, k < n * n; i += 1, k += n) {
+    for (j = i - n, l = k; j < i + n * n - n, l < k + n; j += n, l += 1) {
+      rotation[j + n] = pole[l];
     }
   }
 }
 function comeBack() {
-  for (i = k = 0; i < m, k < n; i += 1, k += m) {
-    for (j = i - m, l = k; j < i + m * m - m, l < k + m; j += m, l += 1) {
-      pole[l] = rotation[j + m];
+  for (i = k = 0; i < n, k < n * n; i += 1, k += n) {
+    for (j = i - n, l = k; j < i + n * n - n, l < k + n; j += n, l += 1) {
+      pole[l] = rotation[j + n];
     }
   }
 }
