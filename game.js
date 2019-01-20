@@ -7,20 +7,9 @@ const n = 4;
 const choise = ['l', 'r', 'u', 'd', 'q'];
 // const choise  = ['left', 'right','up', 'down', 'exit'];
 
-// // const playingField = [];
-// const playingField = {
-//   0: 9, 1: 4, 2: 2, 3: 6, 4: 4, 5: 7, 6: 6, 7: 7, 8: 9, 9: 6, 10: 12, 11: 10, 12: 11, 13: 9, 14: 15, 15: 9,
-// };
-
-// const field = {
-//   0: 9, 1: 4, 2: 2, 3: 6, 4: 4, 5: 7, 6: 6, 7: 0, 8: 9, 9: 0, 10: 12, 11: 10, 12: 11, 13: 9, 14: 15, 15: 9,
-// };
-
+const playingField = [];
 
 const duplicate = [];
-
-
-let q;
 
 function newField(field) {
   for (let i = 0; i < n * n; i += 1) {
@@ -28,7 +17,6 @@ function newField(field) {
   }
 }
 
-// if (check > 0)
 function addTwo(field) {
   const arr = [];
   for (let i = 0; i < n * n; i += 1) {
@@ -44,7 +32,7 @@ function addTwo(field) {
   	return false;
 }
 
-function Check(field) {
+function check(field) {
   let check = 0;
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
@@ -61,7 +49,7 @@ function Check(field) {
   	return false;
 }
 
-function algorithm(field) {
+function swipe(field) {
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
       let w = j + 1;
@@ -164,24 +152,37 @@ rl.prompt();
 rl.on('line', (line) => {
   switch (line) {
     case choise[0]:
-      algorithm(playingField);
+    	check(playingField);      
+      swipe(playingField);
+      if(check){
+      	addTwo(playingField);
+      }      
       break;
     case choise[1]:
       mirror(duplicate, playingField);
-      check(duplicate);
-      algorithm(duplicate);
-
+      check(duplicate);      
+      swipe(duplicate);
+      if(check){
+      	addTwo(duplicate);
+      }
       mirror(playingField, duplicate);
       break;
     case choise[2]:
       rotate(playingField);
-      algorithm(duplicate);
+      check(duplicate);      
+      swipe(duplicate);
+      if(check){
+      	addTwo(duplicate);
+      }
       comeBack(playingField);
       break;
     case choise[3]:
       rotate(playingField);
       mirror(playingField, duplicate);
-      algorithm(playingField);
+      swipe(playingField);
+      if(check){
+      	addTwo(playingField);
+      } 
       mirror(duplicate, playingField);
       comeBack(playingField);
       break;
@@ -193,6 +194,6 @@ rl.on('line', (line) => {
       break;
   }
   showing(playingField);
-  gameOver();
+  gameOver(playingField);
   rl.prompt();
 }).on('close', () => { process.exit(0); });
