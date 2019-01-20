@@ -2,8 +2,6 @@ const readline = require('readline');
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
-const n = 4;
-
 const choise = ['l', 'r', 'u', 'd', 'q'];
 // const choise  = ['left', 'right','up', 'down', 'exit'];
 
@@ -12,14 +10,14 @@ const playingField = [];
 const duplicate = [];
 
 function newField(field) {
-  for (let i = 0; i < n * n; i += 1) {
+  for (let i = 0, n = 4; i < n * n; i += 1) {
 	  field[i] = 0;
   }
 }
 
 function addTwo(field) {
   const arr = [];
-  for (let i = 0; i < n * n; i += 1) {
+  for (let i = 0; i < field.length; i += 1) {
     if (field[i] === 0) {
       arr.push(i);
     }
@@ -28,15 +26,16 @@ function addTwo(field) {
   field[arr[random]] = 2;
   if (field[arr[random]] == 2) {
   	return true;
-  }
+  }else{
   	return false;
+  }
 }
 
 function check(field) {
   let check = 0;
-  for (let i = 0; i < n * n; i += n) {
-    for (let j = i; j < i + n; j += 1) {
-      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
+  for (let i = 0; i < field.length; i += Math.sqrt(field.length)) {
+    for (let j = i; j < i + Math.sqrt(field.length); j += 1) {
+      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + Math.sqrt(field.length)) {
         check += 1;
       } else if (field[j] !== 0 && field[j - 1] == 0 && j - 1 >= i) {
       	check += 1;
@@ -49,41 +48,44 @@ function check(field) {
   	return false;
 }
 
-function swipe(field) {
-  for (let i = 0; i < n * n; i += n) {
-    for (let j = i; j < i + n; j += 1) {
+function removeNulls(field) {
+  for (let i = 0; i < field.length; i += Math.sqrt(field.length)) {
+    for (let j = i; j < i + Math.sqrt(field.length); j += 1) {
       let w = j + 1;
       if (field[j] === 0) {
-        if (field[j + 1] === 0 && j + 1 < i + n) {
-          while (field[w] === 0 && w < i + n) {
+        if (field[j + 1] === 0 && j + 1 < i + Math.sqrt(field.length)) {
+          while (field[w] === 0 && w < i + Math.sqrt(field.length)) {
             w += 1;
           }
-          if (w < i + n) {
-            for (let k = j, q = w; q < i + n; q += 1, k += 1) {
+          if (w < i + Math.sqrt(field.length)) {
+            for (let k = j, q = w; q < i + Math.sqrt(field.length); q += 1, k += 1) {
               field[k] = field[q];
             }
-            for (let m = i + n - 1; m >= i + n - w + j; m -= 1) {
+            for (let m = i + Math.sqrt(field.length) - 1; m >= i + Math.sqrt(field.length) - w + j; m -= 1) {
               field[m] = 0;
             }
           }
         } else {
-          for (let k = j; k < i + n - 1; k += 1) {
+          for (let k = j; k < i + Math.sqrt(field.length) - 1; k += 1) {
             field[k] = field[k + 1];
           }
-          field[i + n - 1] = 0;
+          field[i + Math.sqrt(field.length) - 1] = 0;
         }
       }
     }
   }
+}
 
-  for (let i = 0; i < n * n; i += n) {
-    for (let j = i; j < i + n; j += 1) {
-      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
+function addElements(field){
+
+  for (let i = 0; i < field.length; i += Math.sqrt(field.length)) {
+    for (let j = i; j < i + Math.sqrt(field.length); j += 1) {
+      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + Math.sqrt(field.length)) {
         field[j] = field[j] * 2;
-        for (let k = j + 1; k < i + n - 1; k += 1) {
+        for (let k = j + 1; k < i + Math.sqrt(field.length) - 1; k += 1) {
           field[k] = field[k + 1];
         }
-        field[i + n - 1] = 0;
+        field[i + Math.sqrt(field.length) - 1] = 0;
       }
     }
   }
@@ -91,11 +93,11 @@ function swipe(field) {
 
 function gameOver(field) {
   let over = 0;
-  for (let i = 0; i < n * n; i += n) {
-    for (let j = i; j < i + n; j += 1) {
-      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
+  for (let i = 0; i < field.length; i += Math.sqrt(field.length)) {
+    for (let j = i; j < i + Math.sqrt(field.length); j += 1) {
+      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + Math.sqrt(field.length)) {
         over += 1;
-      } else if (field[j] === field[j + n] && j < n * n - n && field[j] !== 0) {
+      } else if (field[j] === field[j + Math.sqrt(field.length)] && j < field.length - Math.sqrt(field.length) && field[j] !== 0) {
       	over += 1;
       } else if (field[j] === 0) {
       	over += 1;
@@ -110,9 +112,9 @@ function gameOver(field) {
 
 
 function showing(field) {
-  for (let i = 0; i < n * n; i += n) {
+  for (let i = 0; i < field.length; i += Math.sqrt(field.length)) {
     const show = [];
-    for (let j = i; j < i + n; j += 1) {
+    for (let j = i; j < i + Math.sqrt(field.length); j += 1) {
       show.push(field[j]);
     }
     console.log(show.join('  '));
@@ -120,23 +122,23 @@ function showing(field) {
 }
 
 function mirror(duplicate, field) {
-  for (let i = 0; i < n * n; i += n) {
-    for (let j = i, k = i + n - 1; j < i + n, k >= i; k -= 1, j += 1) {
+  for (let i = 0; i < field.length; i += Math.sqrt(field.length)) {
+    for (let j = i, k = i + Math.sqrt(field.length) - 1; j < i + Math.sqrt(field.length), k >= i; k -= 1, j += 1) {
     	duplicate[j] = field[k];
     }
   }
 }
 function rotate(field) {
-  for (let i = k = 0; i < n, k < n * n; i += 1, k += n) {
-    for (let j = i - n, l = k; j < i + n * n - n, l < k + n; j += n, l += 1) {
-      duplicate[j + n] = field[l];
+  for (let i = k = 0; i < Math.sqrt(field.length), k < field.length; i += 1, k += Math.sqrt(field.length)) {
+    for (let j = i - Math.sqrt(field.length), l = k; j < i + field.length - Math.sqrt(field.length), l < k + Math.sqrt(field.length); j += Math.sqrt(field.length), l += 1) {
+      duplicate[j + Math.sqrt(field.length)] = field[l];
     }
   }
 }
 function comeBack(field) {
-  for (let i = k = 0; i < n, k < n * n; i += 1, k += n) {
-    for (let j = i - n, l = k; j < i + n * n - n, l < k + n; j += n, l += 1) {
-      field[l] = duplicate[j + n];
+  for (let i = k = 0; i < Math.sqrt(field.length), k < field.length; i += 1, k += Math.sqrt(field.length)) {
+    for (let j = i - Math.sqrt(field.length), l = k; j < i + field.length - Math.sqrt(field.length), l < k + Math.sqrt(field.length); j += Math.sqrt(field.length), l += 1) {
+      field[l] = duplicate[j + Math.sqrt(field.length)];
     }
   }
 }
@@ -153,7 +155,8 @@ rl.on('line', (line) => {
   switch (line) {
     case choise[0]:
     	check(playingField);      
-      swipe(playingField);
+      removeNulls(playingField);
+      addElements(playingField);
       if(check){
       	addTwo(playingField);
       }      
@@ -161,7 +164,8 @@ rl.on('line', (line) => {
     case choise[1]:
       mirror(duplicate, playingField);
       check(duplicate);      
-      swipe(duplicate);
+      removeNulls(duplicate);
+      addElements(duplicate);
       if(check){
       	addTwo(duplicate);
       }
@@ -170,7 +174,8 @@ rl.on('line', (line) => {
     case choise[2]:
       rotate(playingField);
       check(duplicate);      
-      swipe(duplicate);
+      removeNulls(duplicate);
+      addElements(duplicate);
       if(check){
       	addTwo(duplicate);
       }
@@ -179,7 +184,8 @@ rl.on('line', (line) => {
     case choise[3]:
       rotate(playingField);
       mirror(playingField, duplicate);
-      swipe(playingField);
+      removeNulls(playingField);
+      addElements(playingField);
       if(check){
       	addTwo(playingField);
       } 
@@ -197,3 +203,4 @@ rl.on('line', (line) => {
   gameOver(playingField);
   rl.prompt();
 }).on('close', () => { process.exit(0); });
+

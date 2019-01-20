@@ -5,25 +5,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const body = document.querySelector('body');
 
-    let clas, x, y, z;
+    let position, x, y, z;
 
     body.classList.remove('horisontal', 'vertical');
 
     if (browserWidth > browserHeight) {
-      clas = 'horisontal';
-      x = `${browserHeight}px`;
-      y = `${browserHeight}px`;
-      z = `${(browserWidth - browserHeight) / 2}px`;
+      position = 'horisontal';
+      height = `${browserHeight}px`;
+      width = `${browserHeight}px`;
+      changedWidth = `${(browserWidth - browserHeight) / 2}px`;
     } else {
-      clas = 'vertical';
-      x = `${browserWidth}px`;
-      y = `${(browserHeight - browserWidth) / 2}px`;
-      z = `${browserWidth}px`;
+      position = 'vertical';
+      height = `${browserWidth}px`;
+      width = `${(browserHeight - browserWidth) / 2}px`;
+      changedWidth = `${browserWidth}px`;
     }
 
-    body.classList.add(clas);
-    [].forEach.call(document.querySelectorAll('.middle'), (el) => { el.style.width = x; el.style.height = x; });
-    [].forEach.call(document.querySelectorAll('.out'), (el) => { el.style.width = z; el.style.height = x; });
+    body.classList.add(position);
+    [].forEach.call(document.querySelectorAll('.middle'), (el) => { el.style.width = height; el.style.height = height; });
+    [].forEach.call(document.querySelectorAll('.out'), (el) => { el.style.width = changedWidth; el.style.height =width; });
   };
 
 
