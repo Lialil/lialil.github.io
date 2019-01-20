@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const body = document.querySelector('body');
 
-    let position, x, y, z;
+    let position, height, width, changedWidth;
 
     body.classList.remove('horisontal', 'vertical');
 
