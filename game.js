@@ -7,29 +7,21 @@ const choise = ['l', 'r', 'u', 'd', 'e'];
 
 let playingField = [];
 
-function newField(field, n) {
-  const cell = field;
+function newField(n) {
   for (let i = 0; i < n * n; i += 1) {
-    cell[i] = 0;
+    playingField[i] = 0;
   }
 }
 
-function oneLine(m, field) {
-  const array = [];
-  const cell = field;
-  const n = Math.sqrt(cell.length);
-  for (let i = m; i < m + n; i += 1) {
-    array.push(field[i]);
-  }
-  return array;
+function oneLine(m) {
+  return playingField.slice(m, m + Math.sqrt(playingField.length));
 }
 
 function doubleElements(field) {
-  const cell = field;
-  const n = cell.length;
+  const n = field.length;
   let boolean = false;
   for (let i = 0; i < n; i += 1) {
-    if (cell[i] === cell[i + 1] && cell[i] !== 0 && i + 1 < n) {
+    if (field[i] === field[i + 1] && field[i] !== 0 && i + 1 < n) {
       boolean = true;
     }
   }
@@ -37,91 +29,86 @@ function doubleElements(field) {
 }
 
 function zero(field) {
-  const cell = field;
-  const n = cell.length;
+  const n = field.length;
   let boolean = false;
   for (let i = 0; i < n; i += 1) {
-    if (cell[i] !== 0 && cell[i - 1] === 0 && i - 1 >= 0) {
+    if (field[i] !== 0 && field[i - 1] === 0 && i - 1 >= 0) {
       boolean = true;
     }
   }
   return boolean;
 }
 
-function addTwo(field) {
-  const cell = field;
-  const array = [];
-  for (let i = 0; i < cell.length; i += 1) {
-    if (cell[i] === 0) {
-      array.push(i);
+function addTwo() {
+  const temporary = [];
+  for (let i = 0; i < playingField.length; i += 1) {
+    if (playingField[i] === 0) {
+      temporary.push(i);
     }
   }
-  const random = Math.floor(Math.random() * array.length);
-  cell[array[random]] = 2;
-  if (array.length !== 0) {
+  const randomIndex = Math.floor(Math.random() * temporary.length);
+  if (temporary.length !== 0) {
+    playingField[temporary[randomIndex]] = 2;
     return true;
   }
   return false;
 }
 
-function checkNull(field) {
-  const cell = field;
-  const n = Math.sqrt(cell.length);
+function checkNull() {
+  const n = Math.sqrt(playingField.length);
   let boolean = false;
   for (let i = 0; i < n * n; i += n) {
-    const array = oneLine(i, cell);
+    const temporary = oneLine(i);
     if (boolean === false) {
-      boolean = doubleElements(array);
+      boolean = doubleElements(temporary);
     }
     if (boolean === false) {
-      boolean = zero(array);
+      boolean = zero(temporary);
     }
   }
   return boolean;
 }
 
-function removeNulls(field) {
-  const cell = field;
-  const n = Math.sqrt(cell.length);
+
+function removeNulls() {
+  const n = Math.sqrt(playingField.length);
   for (let i = 0; i < n * n; i += n) {
-    const array = [];
+    const temporary = [];
     for (let j = i; j < i + n; j += 1) {
-      if (cell[j] !== 0) {
-        array.push(cell[j]);
-        cell[j] = 0;
+      if (playingField[j] !== 0) {
+        temporary.push(playingField[j]);
+        playingField[j] = 0;
       }
     }
-    for (let j = 0; j < array.length; j += 1) {
-      cell[j + i] = array[j];
+    for (let j = 0; j < temporary.length; j += 1) {
+      playingField[j + i] = temporary[j];
     }
   }
 }
 
-function addElements(field) {
-  const cell = field;
-  const n = Math.sqrt(cell.length);
+function addElements() {
+  const n = Math.sqrt(playingField.length);
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
-      if (cell[j] === cell[j + 1] && cell[j] !== 0 && j + 1 < i + n) {
-        cell[j] = cell[j + 1] * 2;
-        cell[j + 1] = 0;
+      if (playingField[j] === playingField[j + 1] && playingField[j] !== 0 && j + 1 < i + n) {
+        playingField[j] = playingField[j + 1] * 2;
+        playingField[j + 1] = 0;
       }
     }
   }
-  removeNulls(cell);
+  removeNulls();
 }
 
-function gameOver(field) {
-  const cell = field;
-  const n = Math.sqrt(cell.length);
+function gameOver() {
+  const n = Math.sqrt(playingField.length);
   let boolean = true;
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
-      if (cell[j] === cell[j + 1] && cell[j] !== 0 && j + 1 < i + n) {
+      if (playingField[j] === playingField[j + 1] && playingField[j] !== 0 && j + 1 < i + n) {
         boolean = false;
-      } else if (cell[j] === cell[j + n] && j < n * n - n && cell[j] !== 0) {
+      } else if (playingField[j] === playingField[j + n] && j < n * n - n && playingField[j] !== 0) {
         boolean = false;
-      } else if (cell[j] === 0) {
+      } else if (playingField[j] === 0) {
         boolean = false;
       }
     }
@@ -132,43 +119,39 @@ function gameOver(field) {
   }
 }
 
-function showing(field) {
-  const cell = field;
-  const n = Math.sqrt(cell.length);
+function showing() {
+  const n = Math.sqrt(playingField.length);
   for (let i = 0; i < n * n; i += n) {
-    const array = oneLine(i, cell);
-    console.log(array.join('  '));
+    const temporary = oneLine(i);
+    console.log(temporary.join('  '));
   }
 }
 
-function mirror(field) {
-  const cell = field;
-  const array = [];
-  const n = Math.sqrt(cell.length);
+function mirror() {
+  const temporary = [];
+  const n = Math.sqrt(playingField.length);
   for (let i = n; i <= n * n; i += n) {
     for (let j = i - 1; -j <= -(i - n); j += -1) {
-      array.push(cell[j]);
+      temporary.push(playingField[j]);
     }
   }
-  playingField = array;
+  playingField = temporary;
 }
 
-function rotate(field) {
-  const cell = field;
-  const array = [];
-  const n = Math.sqrt(cell.length);
+function rotate() {
+  const temporary = [];
+  const n = Math.sqrt(playingField.length);
   for (let i = 0; i < n; i += 1) {
     for (let j = i; j < n * n; j += n) {
-      array.push(playingField[j]);
+      temporary.push(playingField[j]);
     }
   }
-  playingField = array;
+  playingField = temporary;
 }
-
-newField(playingField, 4);
-addTwo(playingField);
-addTwo(playingField);
-showing(playingField);
+newField(4);
+addTwo();
+addTwo();
+showing();
 
 console.log('You can choose:', choise.join(', '));
 rl.setPrompt('Your answer: ');
@@ -177,44 +160,44 @@ let check1;
 rl.on('line', (line) => {
   switch (line) {
     case choise[0]:
-      check1 = checkNull(playingField);
-      removeNulls(playingField);
-      addElements(playingField);
+      check1 = checkNull();
+      removeNulls();
+      addElements();
       if (check1) {
-        addTwo(playingField);
+        addTwo();
       }
       break;
     case choise[1]:
-      mirror(playingField);
-      check1 = checkNull(playingField);
-      removeNulls(playingField);
-      addElements(playingField);
+      mirror();
+      check1 = checkNull();
+      removeNulls();
+      addElements();
       if (check1) {
-        addTwo(playingField);
+        addTwo();
       }
-      mirror(playingField);
+      mirror();
       break;
     case choise[2]:
-      rotate(playingField);
-      check1 = checkNull(playingField);
-      removeNulls(playingField);
-      addElements(playingField);
+      rotate();
+      check1 = checkNull();
+      removeNulls();
+      addElements();
       if (check1) {
-        addTwo(playingField);
+        addTwo();
       }
-      rotate(playingField);
+      rotate();
       break;
     case choise[3]:
-      rotate(playingField);
-      mirror(playingField);
-      check1 = checkNull(playingField);
-      removeNulls(playingField);
-      addElements(playingField);
+      rotate();
+      mirror();
+      check1 = checkNull();
+      removeNulls();
+      addElements();
       if (check1) {
-        addTwo(playingField);
+        addTwo();
       }
-      mirror(playingField);
-      rotate(playingField);
+      mirror();
+      rotate();
       break;
     case choise[4]:
       rl.close();
@@ -223,8 +206,8 @@ rl.on('line', (line) => {
       console.log('Incorrect answer. Please try again)');
       break;
   }
-  showing(playingField);
-  gameOver(playingField);
+  showing();
+  gameOver();
   rl.prompt();
 }).on('close', () => { process.exit(0); });
 
@@ -236,16 +219,42 @@ rl.on('line', (line) => {
 //     playingField[i] = d;
 //     d=d+1;
 //   }
-// playingField[6] = 7;
+
+// playingField[0] = 7;
 // console.log(playingField);
+// addTwo();
+// console.log(playingField);
+
+
 // // kk(ar);
 // // for(let i = 0; i < n * n; i += n){
-// //   let array = [];
-// //   array = oneLine(i,ar,n);
-// //   console.log(array);
+// //   let temporary = [];
+// //   temporary = oneLine(i,ar,n);
+// //   console.log(temporary);
 
 // // }
 
 
 // let y = kk1(playingField);;
 // console.log(y);
+
+
+// function addTwo(field) {
+//   const field = field;
+//   const temporary = [];
+//   for (let i = 0; i < field.length; i += 1) {
+//     if (field[i] === 0) {
+//       temporary.push(i);
+//     }
+//   }
+//   const random = Math.floor(Math.random() * temporary.length);
+// debugger;
+//   field[temporary[random]] = 2;
+//   if (temporary.length !== 0) {
+//     return true;
+//   }
+//   return false;
+// }
+
+// const a = [1,2,3,4];
+// addTwo(a);
