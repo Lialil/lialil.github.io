@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const body = document.querySelector('body');
 
-    let position, height, width, changedWidth;
+    let position; let height; let width; let
+      changedWidth;
 
     body.classList.remove('horisontal', 'vertical');
 
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     body.classList.add(position);
     [].forEach.call(document.querySelectorAll('.middle'), (el) => { el.style.width = height; el.style.height = height; });
-    [].forEach.call(document.querySelectorAll('.out'), (el) => { el.style.width = changedWidth; el.style.height =width; });
+    [].forEach.call(document.querySelectorAll('.out'), (el) => { el.style.width = changedWidth; el.style.height = width; });
   };
 
 
