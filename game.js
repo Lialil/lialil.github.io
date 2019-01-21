@@ -13,8 +13,9 @@ function newField(n) {
   }
 }
 
-function oneLine(m) {
-  return playingField.slice(m, m + Math.sqrt(playingField.length));
+function oneLine(m, field) {
+  const n = Math.sqrt(field.length);
+  return field.slice(m, m + n);
 }
 
 function doubleElements(field) {
@@ -39,10 +40,11 @@ function zero(field) {
   return boolean;
 }
 
-function addTwo() {
+function addTwo(field) {
   const temporary = [];
-  for (let i = 0; i < playingField.length; i += 1) {
-    if (playingField[i] === 0) {
+  const n = field.length;
+  for (let i = 0; i < n; i += 1) {
+    if (field[i] === 0) {
       temporary.push(i);
     }
   }
@@ -54,11 +56,11 @@ function addTwo() {
   return false;
 }
 
-function checkNull() {
-  const n = Math.sqrt(playingField.length);
+function checkNull(field) {
+  const n = Math.sqrt(field.length);
   let boolean = false;
   for (let i = 0; i < n * n; i += n) {
-    const temporary = oneLine(i);
+    const temporary = oneLine(i, field);
     if (boolean === false) {
       boolean = doubleElements(temporary);
     }
@@ -69,46 +71,45 @@ function checkNull() {
   return boolean;
 }
 
-
-function removeNulls() {
-  const n = Math.sqrt(playingField.length);
+function removeNulls(field) {
+  const n = Math.sqrt(field.length);
   for (let i = 0; i < n * n; i += n) {
     const temporary = [];
     for (let j = i; j < i + n; j += 1) {
-      if (playingField[j] !== 0) {
-        temporary.push(playingField[j]);
-        playingField[j] = 0;
+      if (field[j] !== 0) {
+        temporary.push(field[j]);
+        field[j] = 0;
       }
     }
     for (let j = 0; j < temporary.length; j += 1) {
-      playingField[j + i] = temporary[j];
+      field[j + i] = temporary[j];
     }
   }
 }
 
-function addElements() {
-  const n = Math.sqrt(playingField.length);
+function addElements(field) {
+  const n = Math.sqrt(field.length);
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
-      if (playingField[j] === playingField[j + 1] && playingField[j] !== 0 && j + 1 < i + n) {
-        playingField[j] = playingField[j + 1] * 2;
-        playingField[j + 1] = 0;
+      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
+        field[j] = field[j + 1] * 2;
+        field[j + 1] = 0;
       }
     }
   }
-  removeNulls();
+  removeNulls(field);
 }
 
-function gameOver() {
-  const n = Math.sqrt(playingField.length);
+function gameOver(field) {
+  const n = Math.sqrt(field.length);
   let boolean = true;
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
-      if (playingField[j] === playingField[j + 1] && playingField[j] !== 0 && j + 1 < i + n) {
+      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
         boolean = false;
-      } else if (playingField[j] === playingField[j + n] && j < n * n - n && playingField[j] !== 0) {
+      } else if (field[j] === field[j + n] && j < n * n - n && field[j] !== 0) {
         boolean = false;
-      } else if (playingField[j] === 0) {
+      } else if (field[j] === 0) {
         boolean = false;
       }
     }
@@ -122,25 +123,25 @@ function gameOver() {
 function showing() {
   const n = Math.sqrt(playingField.length);
   for (let i = 0; i < n * n; i += n) {
-    const temporary = oneLine(i);
+    const temporary = oneLine(i, playingField);
     console.log(temporary.join('  '));
   }
 }
 
-function mirror() {
+function mirror(field) {
   const temporary = [];
-  const n = Math.sqrt(playingField.length);
+  const n = Math.sqrt(field.length);
   for (let i = n; i <= n * n; i += n) {
     for (let j = i - 1; -j <= -(i - n); j += -1) {
-      temporary.push(playingField[j]);
+      temporary.push(field[j]);
     }
   }
   playingField = temporary;
 }
 
-function rotate() {
+function rotate(field) {
   const temporary = [];
-  const n = Math.sqrt(playingField.length);
+  const n = Math.sqrt(field.length);
   for (let i = 0; i < n; i += 1) {
     for (let j = i; j < n * n; j += n) {
       temporary.push(playingField[j]);
@@ -148,10 +149,11 @@ function rotate() {
   }
   playingField = temporary;
 }
+console.log(playingField);
 newField(4);
-addTwo();
-addTwo();
-showing();
+addTwo(playingField);
+addTwo(playingField);
+showing(playingField);
 
 console.log('You can choose:', choise.join(', '));
 rl.setPrompt('Your answer: ');
@@ -160,44 +162,44 @@ let check1;
 rl.on('line', (line) => {
   switch (line) {
     case choise[0]:
-      check1 = checkNull();
-      removeNulls();
-      addElements();
+      check1 = checkNull(playingField);
+      removeNulls(playingField);
+      addElements(playingField);
       if (check1) {
-        addTwo();
+        addTwo(playingField);
       }
       break;
     case choise[1]:
-      mirror();
-      check1 = checkNull();
-      removeNulls();
-      addElements();
+      mirror(playingField);
+      check1 = checkNull(playingField);
+      removeNulls(playingField);
+      addElements(playingField);
       if (check1) {
-        addTwo();
+        addTwo(playingField);
       }
-      mirror();
+      mirror(playingField);
       break;
     case choise[2]:
-      rotate();
-      check1 = checkNull();
-      removeNulls();
-      addElements();
+      rotate(playingField);
+      check1 = checkNull(playingField);
+      removeNulls(playingField);
+      addElements(playingField);
       if (check1) {
-        addTwo();
+        addTwo(playingField);
       }
-      rotate();
+      rotate(playingField);
       break;
     case choise[3]:
-      rotate();
-      mirror();
-      check1 = checkNull();
-      removeNulls();
-      addElements();
+      rotate(playingField);
+      mirror(playingField);
+      check1 = checkNull(playingField);
+      removeNulls(playingField);
+      addElements(playingField);
       if (check1) {
-        addTwo();
+        addTwo(playingField);
       }
-      mirror();
-      rotate();
+      mirror(playingField);
+      rotate(playingField);
       break;
     case choise[4]:
       rl.close();
@@ -206,8 +208,8 @@ rl.on('line', (line) => {
       console.log('Incorrect answer. Please try again)');
       break;
   }
-  showing();
-  gameOver();
+  showing(playingField);
+  gameOver(playingField);
   rl.prompt();
 }).on('close', () => { process.exit(0); });
 
@@ -222,7 +224,7 @@ rl.on('line', (line) => {
 
 // playingField[0] = 7;
 // console.log(playingField);
-// addTwo();
+// addTwo(playingField);
 // console.log(playingField);
 
 
@@ -237,24 +239,3 @@ rl.on('line', (line) => {
 
 // let y = kk1(playingField);;
 // console.log(y);
-
-
-// function addTwo(field) {
-//   const field = field;
-//   const temporary = [];
-//   for (let i = 0; i < field.length; i += 1) {
-//     if (field[i] === 0) {
-//       temporary.push(i);
-//     }
-//   }
-//   const random = Math.floor(Math.random() * temporary.length);
-// debugger;
-//   field[temporary[random]] = 2;
-//   if (temporary.length !== 0) {
-//     return true;
-//   }
-//   return false;
-// }
-
-// const a = [1,2,3,4];
-// addTwo(a);
