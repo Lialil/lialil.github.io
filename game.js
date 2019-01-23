@@ -1,13 +1,28 @@
 
 const readline = require('readline');
+
 const rl = readline.createInterface(process.stdin, process.stdout);
 
 const choise = ['l', 'r', 'u', 'd', 'e'];
 
-let playingField = [];
-
 function createField(n) {
   return Array(n * n).fill(0);
+}
+
+function fieldSize(field) {
+  return Math.sqrt(field.length);
+}
+
+function createRow(m, field) {
+  const n = fieldSize(field);
+  return field.slice(m, m + n);
+}
+
+function replaceValueRow(field, row, column) {
+  const n = row.length;
+  for (let i = 0; i < n; i += 1) {
+    field[i + column] = row[i];
+  }
 }
 
 function addTwo(field) {
@@ -26,34 +41,7 @@ function addTwo(field) {
   return false;
 }
 
-function row(m, field) {
-  const n = fieldSize(field);
-  return field.slice(m, m + n);
-}
-
-function fieldSize(field){
-  return Math.sqrt(field.length);
-}
-
-function isAllZero(element) {
-  return element !== 0;
-}
-
-function isFreeCell(field) {
-  const n = fieldSize(field);
-  for (let i = 0; i < n * n; i += n) {
-    const rowOfField = row(i, field);
-    if (twoEqualElements(rowOfField)) {
-      return true;
-    }
-    if (zeroInLeft(rowOfField)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function twoEqualElements(row) {
+function isSameElementsNear(row) {
   const n = row.length;
   for (let i = 0; i < n; i += 1) {
     if (row[i] === row[i + 1] && row[i] !== 0 && i + 1 < n) {
@@ -63,7 +51,7 @@ function twoEqualElements(row) {
   return false;
 }
 
-function zeroInLeft(row) {
+function isZeroInLeft(row) {
   const n = row.length;
   for (let i = 0; i < n; i += 1) {
     if (row[i] !== 0 && row[i - 1] === 0 && i - 1 >= 0) {
@@ -73,37 +61,53 @@ function zeroInLeft(row) {
   return false;
 }
 
-function moveNoZeroElementsInLeft(field) {
+function isFreeCell(field) {
   const n = fieldSize(field);
   for (let i = 0; i < n * n; i += n) {
-    const noZeroElements = [];
-    for (let j = i; j < i + n; j += 1) {
-      if (field[j] !== 0) {
-        noZeroElements.push(field[j]);
-        field[j] = 0;
-      }
+    const rowOfField = createRow(i, field);
+    if (isSameElementsNear(rowOfField)) {
+      return true;
     }
-    for (let j = 0; j < noZeroElements.length; j += 1) {
-      field[j + i] = noZeroElements[j];
+    if (isZeroInLeft(rowOfField)) {
+      return true;
     }
   }
+  return false;
 }
 
-function mergeSameElements(field) {
-  const n = fieldSize(field);
-  for (let i = 0; i < n * n; i += n) {
-    for (let j = i; j < i + n; j += 1) {
-      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
-        field[j] = field[j + 1] * 2;
-        field[j + 1] = 0;
-      }
+function moveNoZeroElementsInLeft(row) {
+  const noZeroElements = row.filter(element => element !== 0);
+  row.fill(0);
+  replaceValueRow(row, noZeroElements, 0);
+}
+
+function mergeSameElements(row) {
+  const n = row.length;
+  for (let i = 0; i < n; i += 1) {
+    if (row[i] === row[i + 1] && row[i] !== 0 && i + 1 < n) {
+      row[i] = row[i + 1] * 2;
+      row[i + 1] = 0;
     }
   }
-  moveNoZeroElementsInLeft(field);
+  moveNoZeroElementsInLeft(row);
+}
+
+function swipe(field) {
+  const check = isFreeCell(field);
+  const n = fieldSize(field);
+  for (let i = 0; i < n * n; i += n) {
+    const rowOfField = createRow(i, field);
+    moveNoZeroElementsInLeft(rowOfField);
+    mergeSameElements(rowOfField);
+    replaceValueRow(field, rowOfField, i);
+  }
+  if (check) {
+    addTwo(field);
+  }
 }
 
 function gameOver(field) {
-  const n = fieldSize(field); 
+  const n = fieldSize(field);
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
       if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
@@ -111,23 +115,21 @@ function gameOver(field) {
       }
       if (field[j] === field[j + n] && j < n * n - n && field[j] !== 0) {
         return false;
-      }      
+      }
     }
   }
-  return field.every(isAllZero);
+  return field.every(element => element !== 0);
 }
 
 function mirror(field) {
   const newField = [];
   const n = fieldSize(field);
   for (let i = n; i <= n * n; i += n) {
-    for (let j = i - 1; j >= i - n; j += -1) {
+    for (let j = i - 1; -j <= -(i - n); j -= 1) {
       newField.push(field[j]);
     }
   }
-  for(let i = 0; i<n*n; i+=1){
-    field[i] = newField[i];
-  }
+  replaceValueRow(field, newField, 0);
 }
 
 function rotate(field) {
@@ -138,31 +140,22 @@ function rotate(field) {
       newField.push(field[j]);
     }
   }
-  for(let i = 0; i<n*n; i+=1){
-    field[i] = newField[i];
-  }
+  replaceValueRow(field, newField, 0);
 }
 
 function showing(field) {
   const n = fieldSize(field);
   for (let i = 0; i < n * n; i += n) {
-    const rowOfField = row(i, field);
+    const rowOfField = createRow(i, field);
     console.log(rowOfField.join('  '));
   }
 }
 
-function swipe(field) {
-  const check = isFreeCell(field);
-  moveNoZeroElementsInLeft(field);
-  mergeSameElements(field);
-  if (check) {
-    addTwo(field);
-  }
-}
+const playingField = createField(4);
+addTwo(playingField);
+addTwo(playingField);
+// playingField = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0];
 
-playingField =  createField(4);
-addTwo(playingField);
-addTwo(playingField);
 showing(playingField);
 console.log('You can choose:', choise.join(', '));
 rl.setPrompt('Your answer: ');
