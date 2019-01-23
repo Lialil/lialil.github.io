@@ -27,12 +27,9 @@ function replaceValueRow(field, row, column) {
 
 function addTwo(field) {
   const zeroElements = [];
-  const n = field.length;
-  for (let i = 0; i < n; i += 1) {
-    if (field[i] === 0) {
-      zeroElements.push(i);
-    }
-  }
+  field.forEach((item, index) => {
+    if (item === 0) { zeroElements.push(index); }
+  });
   const randomZeroElement = Math.floor(Math.random() * zeroElements.length);
   if (zeroElements.length !== 0) {
     field[zeroElements[randomZeroElement]] = 2;
@@ -41,21 +38,11 @@ function addTwo(field) {
   return false;
 }
 
-function isSameElementsNear(row) {
+function canSwipeInLeft(row) {
   const n = row.length;
   for (let i = 0; i < n; i += 1) {
-    if (row[i] === row[i + 1] && row[i] !== 0 && i + 1 < n) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function isZeroInLeft(row) {
-  const n = row.length;
-  for (let i = 0; i < n; i += 1) {
-    if (row[i] !== 0 && row[i - 1] === 0 && i - 1 >= 0) {
-      return true;
+    if (row[i] !== 0) {
+      if (row[i] === row[i + 1] || row[i - 1] === 0) { return true; }
     }
   }
   return false;
@@ -65,12 +52,7 @@ function isFreeCell(field) {
   const n = fieldSize(field);
   for (let i = 0; i < n * n; i += n) {
     const rowOfField = createRow(i, field);
-    if (isSameElementsNear(rowOfField)) {
-      return true;
-    }
-    if (isZeroInLeft(rowOfField)) {
-      return true;
-    }
+    if (canSwipeInLeft(rowOfField)) { return true; }
   }
   return false;
 }
@@ -82,13 +64,12 @@ function moveNoZeroElementsInLeft(row) {
 }
 
 function mergeSameElements(row) {
-  const n = row.length;
-  for (let i = 0; i < n; i += 1) {
-    if (row[i] === row[i + 1] && row[i] !== 0 && i + 1 < n) {
-      row[i] = row[i + 1] * 2;
-      row[i + 1] = 0;
+  row.forEach((item, index) => {
+    if (item !== 0 && item === row[index + 1]) {
+      row[index] += row[index];
+      row[index + 1] = 0;
     }
-  }
+  });
   moveNoZeroElementsInLeft(row);
 }
 
@@ -110,10 +91,10 @@ function gameOver(field) {
   const n = fieldSize(field);
   for (let i = 0; i < n * n; i += n) {
     for (let j = i; j < i + n; j += 1) {
-      if (field[j] === field[j + 1] && field[j] !== 0 && j + 1 < i + n) {
+      if (field[j] !== 0 && field[j] === field[j + 1] && j + 1 < i + n) {
         return false;
       }
-      if (field[j] === field[j + n] && j < n * n - n && field[j] !== 0) {
+      if (field[j] !== 0 && field[j] === field[j + n] && j < n * n - n) {
         return false;
       }
     }
