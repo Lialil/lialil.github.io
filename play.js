@@ -1,31 +1,37 @@
 const readline = require('readline');
 
 const rl = readline.createInterface(process.stdin, process.stdout);
-const importFunction = require('./game.js');
-
-const playingField = importFunction.createField(4);
-importFunction.showing(playingField);
 
 const choise = ['l', 'r', 'u', 'd', 'e'];
-
 console.log('You can choose:', choise.join(', '));
 
+const Game2048 = require('./game.js').game2048;
 
+const game = new Game2048(4);
+
+function showing(field) {
+  const n = field.length;
+  for (let i = 0; i < n; i++) {
+    console.log(field[i].join('  '));
+  }
+}
+
+showing(game.createField());
 rl.setPrompt('Your answer: ');
 rl.prompt();
 rl.on('line', (line) => {
   switch (line) {
     case choise[0]:
-      importFunction.handleLeft(playingField);
+      showing(game.handleLeft());
       break;
     case choise[1]:
-      importFunction.handleRight(playingField);
+      showing(game.handleRight());
       break;
     case choise[2]:
-      importFunction.handleUp(playingField);
+      showing(game.handleUp());
       break;
     case choise[3]:
-      importFunction.handleDown(playingField);
+      showing(game.handleDown());
       break;
     case choise[4]:
       rl.close();
@@ -34,9 +40,7 @@ rl.on('line', (line) => {
       console.log('Incorrect answer. Please try again)');
       break;
   }
-
-  importFunction.showing(playingField);
-  if (importFunction.gameOver(playingField)) {
+  if (game.gameOver()) {
     console.log('Game over.');
     rl.close();
   }

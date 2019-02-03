@@ -1,149 +1,162 @@
-function addTwo(field) {
+function game2048(size) {
+  this.size = size;
+  this.field = [];
+}
+
+module.exports.game2048 = game2048;
+
+game2048.prototype.addTwo = function addTwo() {
   const zeroElements = [];
-  field.forEach((item, index) => {
+  this.field.forEach((item, index) => {
     if (item === 0) {
       zeroElements.push(index);
     }
   });
   const randomZeroElement = Math.floor(Math.random() * zeroElements.length);
   if (zeroElements.length !== 0) {
-    field[zeroElements[randomZeroElement]] = 2;
+    this.field[zeroElements[randomZeroElement]] = 2;
     return true;
   }
   return false;
-}
+};
 
-function fieldSize(field) {
+game2048.prototype.createField = function createField() {
+  this.field = Array(this.size * this.size).fill(0);
+  this.addTwo();
+  this.addTwo();
+  return this.changeView();
+};
+
+game2048.prototype.fieldSize = function fieldSize(field) {
   return Math.sqrt(field.length);
-}
+};
 
-function createRow(row, field) {
-  const n = fieldSize(field);
+game2048.prototype.createRow = function createRow(row) {
+  const n = this.fieldSize(this.field);
   row *= n;
-  return field.slice(row, row + n);
-}
-
-exports.createField = function (n) {
-  const field = Array(n * n).fill(0);
-  addTwo(field);
-  addTwo(field);
-  return field;
+  return this.field.slice(row, row + n);
 };
 
-exports.showing = function (field) {
-  const n = fieldSize(field);
+game2048.prototype.changeView = function changeView() {
+  const n = this.fieldSize(this.field);
+  const anotherField = [];
   for (let i = 0; i < n; i++) {
-    const rowOfField = createRow(i, field);
-    console.log(rowOfField.join('  '));
+    const rowOfField = this.createRow(i);
+    anotherField[i] = rowOfField;
   }
+  return anotherField;
 };
 
-function replaceValueRow(field, row, column) {
+game2048.prototype.replaceValueRow = function replaceValueRow(field, row, column) {
   row.forEach((item, index) => {
     field.splice(index + column, 1, row[index]);
   });
-}
+};
 
-function mirror(field) {
-  const n = fieldSize(field);
+game2048.prototype.mirror = function mirror() {
+  const n = this.fieldSize(this.field);
   for (let i = 0; i < n; i++) {
-    const rowOfField = createRow(i, field);
+    const rowOfField = this.createRow(i);
     rowOfField.reverse();
-    replaceValueRow(field, rowOfField, i * n);
+    this.replaceValueRow(this.field, rowOfField, i * n);
   }
-}
+};
 
-function rotate(field) {
+game2048.prototype.rotate = function rotate() {
   const newField = [];
-  const n = fieldSize(field);
+  const n = this.fieldSize(this.field);
   for (let i = 0; i < n; i++) {
     for (let j = i; j < n * n; j += n) {
-      newField.push(field[j]);
+      newField.push(this.field[j]);
     }
   }
-  replaceValueRow(field, newField, 0);
-}
+  this.replaceValueRow(this.field, newField, 0);
+};
 
-function moveNoZeroElementsInLeft(row) {
+game2048.prototype.moveNoZeroElementsInLeft = function moveNoZeroElementsInLeft(row) {
   const noZeroElements = row.filter(element => element !== 0);
   row.fill(0);
 
-  replaceValueRow(row, noZeroElements, 0);
-}
+  this.replaceValueRow(row, noZeroElements, 0);
+};
 
-function mergeSameElements(row) {
+game2048.prototype.mergeSameElements = function mergeSameElements(row) {
   row.forEach((item, index) => {
     if (item !== 0 && item === row[index + 1]) {
       row[index] += row[index];
       row[index + 1] = 0;
     }
   });
-  moveNoZeroElementsInLeft(row);
-}
+  this.moveNoZeroElementsInLeft(row);
+};
 
-function canSwipeInLeft(row) {
+game2048.prototype.canSwipeInLeft = function canSwipeInLeft(row) {
   return row.some((item, index) => item > 0 && (item === row[index + 1] || row[index - 1] === 0));
-}
+};
 
-function isFreeCell(field) {
-  const n = fieldSize(field);
+game2048.prototype.isFreeCell = function isFreeCell() {
+  const n = this.fieldSize(this.field);
   for (let i = 0; i < n; i++) {
-    const rowOfField = createRow(i, field);
-    if (canSwipeInLeft(rowOfField)) {
+    const rowOfField = this.createRow(i);
+    if (this.canSwipeInLeft(rowOfField)) {
       return true;
     }
   }
   return false;
-}
+};
 
-function swipe(field) {
-  const n = fieldSize(field);
-  const check = isFreeCell(field);
+game2048.prototype.swipe = function swipe() {
+  const n = this.fieldSize(this.field);
+  const check = this.isFreeCell();
   for (let i = 0; i < n; i++) {
-    const rowOfField = createRow(i, field);
-    moveNoZeroElementsInLeft(rowOfField);
-    mergeSameElements(rowOfField);
-    replaceValueRow(field, rowOfField, i * n);
+    const rowOfField = this.createRow(i);
+    this.moveNoZeroElementsInLeft(rowOfField);
+    this.mergeSameElements(rowOfField);
+    this.replaceValueRow(this.field, rowOfField, i * n);
   }
   if (check) {
-    addTwo(field);
+    this.addTwo();
   }
-}
+};
 
-exports.gameOver = function (field) {
-  const n = fieldSize(field);
-  if (field.some(element => element === 0)) {
+game2048.prototype.gameOver = function gameOver() {
+  const n = this.fieldSize(this.field);
+  if (this.field.some(element => element === 0)) {
     return false;
   }
-  if (field.some((item, index) => item === field[index + n])) {
+  if (this.field.some((item, index) => item === this.field[index + n])) {
     return false;
   }
-  if (field.some((item, index) => field[index] === field[index + 1] && index + 1 < index + n)) {
+  if (this.field.some((item, i) => this.field[i] === this.field[i + 1] && i + 1 < i + n)) {
     return false;
   }
   return true;
 };
 
-exports.handleLeft = function (field) {
-  swipe(field);
+game2048.prototype.handleLeft = function handleLeft() {
+  this.swipe(this.field);
+  return this.changeView();
 };
 
-exports.handleRight = function (field) {
-  mirror(field);
-  swipe(field);
-  mirror(field);
+game2048.prototype.handleRight = function handleRight() {
+  this.mirror(this.field);
+  this.swipe(this.field);
+  this.mirror(this.field);
+  return this.changeView();
 };
 
-exports.handleUp = function (field) {
-  rotate(field);
-  swipe(field);
-  rotate(field);
+game2048.prototype.handleUp = function handleUp() {
+  this.rotate(this.field);
+  this.swipe(this.field);
+  this.rotate(this.field);
+  return this.changeView();
 };
 
-exports.handleDown = function (field) {
-  rotate(field);
-  mirror(field);
-  swipe(field);
-  mirror(field);
-  rotate(field);
+game2048.prototype.handleDown = function handleDown() {
+  this.rotate(this.field);
+  this.mirror(this.field);
+  this.swipe(this.field);
+  this.mirror(this.field);
+  this.rotate(this.field);
+  return this.changeView();
 };
