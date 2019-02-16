@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const changeBlock = function () {
+  const changeBlock = function m() {
     const browserHeight = document.documentElement.clientHeight;
     const browserWidth = document.documentElement.clientWidth;
 
     const body = document.querySelector('body');
 
-    let position; let height; let width; let
-      changedWidth;
+    let position; let height; let width; let changedWidth;
 
     body.classList.remove('horisontal', 'vertical');
 
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     [].forEach.call(document.querySelectorAll('.middle'), (el) => { el.style.width = height; el.style.height = height; });
     [].forEach.call(document.querySelectorAll('.out'), (el) => { el.style.width = changedWidth; el.style.height = width; });
   };
-
 
   window.onresize = changeBlock;
   changeBlock();

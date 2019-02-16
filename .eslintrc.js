@@ -4,5 +4,8 @@ module.exports = {
         'no-console': 'off',
         'no-param-reassign': 'off',
         'no-plusplus': 'off',
-    }
+    },
+    "env": {
+    "browser": true
+  }
 };

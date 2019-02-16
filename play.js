@@ -5,7 +5,7 @@ const rl = readline.createInterface(process.stdin, process.stdout);
 const choise = ['l', 'r', 'u', 'd', 'e'];
 console.log('You can choose:', choise.join(', '));
 
-const Game2048 = require('./game.js').game2048;
+const Game2048 = require('./game.js').Game2048;
 
 const game = new Game2048(4);
 

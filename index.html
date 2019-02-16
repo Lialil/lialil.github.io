@@ -5,8 +5,10 @@
  	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
  	<title>2048</title>
  	<style>  </style>
- 	<link rel="stylesheet" href="form.css">  	
- 	<script src="form.js"></script>
+ 	<link rel="stylesheet" href="index.css">  	
+ 	<script src="game.js"></script>
+ 	<script src="index.js"></script>
+ 	<script src="gameInBrowser.js"></script>
 </head>
 <body class="horisontal">		
 	<div class="main">
@@ -16,12 +18,18 @@
 			</header>
 		</div>
 		<div class="block middle">
-			<div  class="pole">			</div>	
-		</div>		
+			<div  id = "playingField"></div>	
+		</div>	
 		<div class="block out foot">
 			<footer>
 				<h5>© 2018 Designed and built with all the love in the world by <a href="https://vk.com/seitbekoval">Liali</a><h5>
 			</footer>
+			<div class = "but">
+				<input type="button" id="up" class="button" value="&uarr;">	
+				<input type="button" id="left" class="button" value="&larr;">	
+				<input type="button" id="right" class="button" value="&rarr;">	
+				<input type="button" id="down" class="button" value="&darr;">		
+			</div>
 		</div>
 	</div>	
 </body>	

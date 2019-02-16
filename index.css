@@ -9,7 +9,7 @@ html {height: 100%;}
 
 body {
   background: #f7f7f8;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 20%
   height: 100%;
   line-height: 180%;
@@ -26,11 +26,6 @@ footer {
   padding: 1%;
 }
 
-.pole {
-  background: #f5deb3;
-  height: 100%;
-}
-
 .out {
   background-color: #fff5ee;
   overflow: hidden;
@@ -38,16 +33,44 @@ footer {
 
 .main {
   height: 100%;
-  width: 100%;	
+  width: 100%;  
 }
 
+#playingField {
+  background: #C0C0C0;
+  height: 98%;
+  display: block;
+  border-radius: 2px;
+  padding:1%;
+}
+
+.cell{
+  text-align: center;
+  background-color: #FFFFFF;
+  margin: 1%;
+  padding: 5%;
+  float: left;
+}
+
+.button{
+  width: 25px;
+  height: 25px;
+  margin: 5px;
+}
+
+.but{
+  display: block;
+}
 
 .horisontal .main { display: flex; }
 .horisontal .block { height: 100%; }
 .horisontal .out { max-width: 120px; word-wrap: break-word; }
 .horisontal .middle { margin: auto; }
+.horisontal .cell { font-size: 7vh; }
 	
 .vertical .main { display: block; }
 .vertical .block { width: 100%;	}
 .vertical .out { max-height: 60px; }
 .vertical .foot { bottom: 0; position: absolute; }
+.vertical .cell { font-size: 7vw; }
+
