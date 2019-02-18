@@ -1,38 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const n = 5;
+  const n = 4;
+  const cellSize = `${(100-n*2)/n}%`;
+  
   const game = new Game2048(n);
-  const cellWidth = `${8}%`;
+
 
   const playingField = document.getElementById('playingField');
-  const showing = function showing(field) {
+
+  const showing = function showing(field){
     while (playingField.firstChild) {
       playingField.removeChild(playingField.firstChild);
     }
-    let t = '';
-    for (let i = 0; i < n; i++) {
-      for (let j = 0; j < n; j++) {
-        if (field[i][j] === 0) {
-          t += "<div class = 'cell'></div>";
-        } else {
-          t += `<div class = 'cell'>${field[i][j]}</div>`;
+    field.forEach((row) => {
+      row.forEach((cell)=>{
+        var div = document.createElement('div');
+        div.className = "cell";
+        if (cell !== 0) {
+          div.innerHTML = cell;
         }
-      }
-    }
-    playingField.innerHTML += t;
-    [].forEach.call(document.querySelectorAll('.cell'), (el) => { el.style.width = cellWidth; el.style.height = cellWidth; });
-  };
+        playingField.appendChild(div);
+      });
+    });
+    [].forEach.call(document.querySelectorAll('.cell'), (el) => { el.style.width = cellSize; el.style.height = cellSize; });
+  }
+
   showing(game.createField());
 
-  document.getElementById('up').onclick = function up() {
-    showing(game.handleUp());
-  };
-  document.getElementById('left').onclick = function left() {
-    showing(game.handleLeft());
-  };
-  document.getElementById('right').onclick = function right() {
-    showing(game.handleRight());
-  };
-  document.getElementById('down').onclick = function down() {
-    showing(game.handleDown());
-  };
+  document.onkeydown = function choise(event) {
+    switch (event.which) {
+      case 37:
+        showing(game.handleLeft());
+        break;
+      case 39:
+        showing(game.handleRight());
+        break;
+      case 38:
+        showing(game.handleUp());
+        break;
+      case 40:
+        showing(game.handleDown());
+        break;
+      default:
+      break;
+    }
+  } 
 });

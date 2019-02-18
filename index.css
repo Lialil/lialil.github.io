@@ -14,6 +14,7 @@ body {
   height: 100%;
   line-height: 180%;
   width: 100%;
+  background-color: #FFFAF0;
 }
 
 #logo {
@@ -22,8 +23,9 @@ body {
 }
 
 header,
-footer {	
+footer {  
   padding: 1%;
+  color: #696969;  
 }
 
 .out {
@@ -38,10 +40,12 @@ footer {
 
 #playingField {
   background: #C0C0C0;
-  height: 98%;
+  height: 100%;
   display: block;
   border-radius: 2px;
   padding:1%;
+  box-sizing: border-box;
+
 }
 
 .cell{
@@ -50,27 +54,20 @@ footer {
   margin: 1%;
   padding: 5%;
   float: left;
+  box-sizing: border-box;
 }
 
-.button{
-  width: 25px;
-  height: 25px;
-  margin: 5px;
-}
-
-.but{
-  display: block;
-}
-
-.horisontal .main { display: flex; }
-.horisontal .block { height: 100%; }
-.horisontal .out { max-width: 120px; word-wrap: break-word; }
-.horisontal .middle { margin: auto; }
-.horisontal .cell { font-size: 7vh; }
-	
+.horizontal .main { display: flex; }
+.horizontal .block { height: 100%; }
+.horizontal .out { max-width: 120px; word-wrap: break-word; }
+.horizontal .middle { margin: auto; }
+.horizontal .cell { font-size: 7vh; }
+.horizontal .head { border-right: 1px solid #C0C0C0; }
+.horizontal .foot { border-left: 1px solid #C0C0C0; }
+  
 .vertical .main { display: block; }
-.vertical .block { width: 100%;	}
+.vertical .block { width: 100%; }
 .vertical .out { max-height: 60px; }
-.vertical .foot { bottom: 0; position: absolute; }
+.vertical .foot { bottom: 0; position: absolute; border-top: 1px solid #C0C0C0; }
+.vertical .head { border-bottom: 1px solid #C0C0C0; }
 .vertical .cell { font-size: 7vw; }
-

@@ -1,29 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const changeBlock = function m() {
+  const changeBlock = function changeBlock() {
     const browserHeight = document.documentElement.clientHeight;
     const browserWidth = document.documentElement.clientWidth;
 
     const body = document.querySelector('body');
 
-    let position; let height; let width; let changedWidth;
+    let position; let cellSize; let outHeight; let outWidth;
 
-    body.classList.remove('horisontal', 'vertical');
+    body.classList.remove('horizontal', 'vertical');
 
     if (browserWidth > browserHeight) {
-      position = 'horisontal';
-      height = `${browserHeight}px`;
-      width = `${browserHeight}px`;
-      changedWidth = `${(browserWidth - browserHeight) / 2}px`;
+      position = 'horizontal';
+      cellSize = `${browserHeight}px`;
+      outHeight = `${browserHeight}px`;
+      outWidth = `${(browserWidth - browserHeight) / 2}px`;
     } else {
       position = 'vertical';
-      height = `${browserWidth}px`;
-      width = `${(browserHeight - browserWidth) / 2}px`;
-      changedWidth = `${browserWidth}px`;
+      cellSize = `${browserWidth}px`;
+      outHeight = `${(browserHeight - browserWidth) / 2}px`;
+      outWidth = `${browserWidth}px`;
     }
 
     body.classList.add(position);
-    [].forEach.call(document.querySelectorAll('.middle'), (el) => { el.style.width = height; el.style.height = height; });
-    [].forEach.call(document.querySelectorAll('.out'), (el) => { el.style.width = changedWidth; el.style.height = width; });
+    [].forEach.call(document.querySelectorAll('.middle'), (el) => { el.style.width = cellSize; el.style.height = cellSize; });
+    [].forEach.call(document.querySelectorAll('.out'), (el) => { el.style.width = outWidth; el.style.height = outHeight; });
   };
 
   window.onresize = changeBlock;
