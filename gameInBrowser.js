@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
 
-  function swipedetect() {
+  function swipedetect(callback) {
     const touchsurface = playingField;
     let swipedir;
     let startX;
@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
           swipedir = (distY < 0) ? 'up' : 'down';
         }
       }
+      // handleswipe(swipedir);
       e.preventDefault();
     }, false);
   }
