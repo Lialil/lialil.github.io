@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const n = 4;
+  const n = 8;
   const cellSize = `${(100-n*2)/n}%`;
   
   const game = new Game2048(n);
@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const playingField = document.getElementById('playingField');
 
-  const showing = function showing(field){
+ const showing = function showing(field){
     while (playingField.firstChild) {
       playingField.removeChild(playingField.firstChild);
     }
     field.forEach((row) => {
       row.forEach((cell)=>{
-        var div = document.createElement('div');
+        const div = document.createElement('div');
         div.className = "cell";
         if (cell !== 0) {
           div.innerHTML = cell;
@@ -44,4 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
       break;
     }
   } 
+
+ 
+
+
+
+
+
 });

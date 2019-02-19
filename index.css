@@ -57,6 +57,13 @@ footer {
   box-sizing: border-box;
 }
 
+.cell-2{
+  background-color: #D2B48C;
+
+}
+.cell-4{
+  background-color: #BC8F8F;
+}
 .horizontal .main { display: flex; }
 .horizontal .block { height: 100%; }
 .horizontal .out { max-width: 120px; word-wrap: break-word; }
