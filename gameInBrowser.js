@@ -58,10 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const allowedTime = 300;
     let elapsedTime;
     let startTime;
+    const handleswipe = callback || function (swipedir) {};
 
     touchsurface.addEventListener('touchstart', (e) => {
       const touchobj = e.changedTouches[0];
       swipedir = 'none';
+      dist = 0;
       startX = touchobj.pageX;
       startY = touchobj.pageY;
       startTime = new Date().getTime();
@@ -84,10 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
           swipedir = (distY < 0) ? 'up' : 'down';
         }
       }
-      // handleswipe(swipedir);
+      handleswipe(swipedir);
       e.preventDefault();
     }, false);
   }
+
 
   swipedetect((swipedir) => {
     switch (swipedir) {
