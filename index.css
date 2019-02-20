@@ -9,7 +9,8 @@ html {height: 100%;}
 
 body {
   background: #f7f7f8;
-  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: Comic Sans MS, sans-serif;
+  color: #696969;  
   font-size: 20%
   height: 100%;
   line-height: 180%;
@@ -17,16 +18,31 @@ body {
   background-color: #FFFAF0;
 }
 
-#logo {
-  font-family: Comic Sans MS, sans-serif;
-  font-size: 2em;
-}
-
 header,
 footer {  
+  font-family: Comic Sans MS, sans-serif;
   padding: 1%;
-  color: #696969;  
 }
+
+a:link{
+  color: #696969; 
+  text-decoration: none; 
+}
+
+a:visited{
+  color: #BC8F8F; 
+}
+
+#logo {
+  font-size: 2em;
+  color: #BC8F8F; 
+  
+}
+
+#logo2 {
+  font-size: 1em;
+}
+
 
 .out {
   background-color: #fff5ee;
@@ -52,18 +68,28 @@ footer {
   text-align: center;
   background-color: #FFFFFF;
   margin: 1%;
-  padding: 5%;
+  border-radius: 2px;
   float: left;
   box-sizing: border-box;
+  color: #696969; 
+  line-height: 300%;
 }
 
-.cell-2{
-  background-color: #D2B48C;
 
-}
-.cell-4{
-  background-color: #BC8F8F;
-}
+.cell-4 { background-color: #F0FFF0; }
+.cell-8 { background-color: rgb(255, 255, 224); }
+.cell-16 { background-color: rgb(220, 248, 255); }
+.cell-32 { background-color: #FFF0F5;  }
+.cell-64 { background-color: #FAEBD7; }
+.cell-128 { background-color: #AFEEEE; }
+.cell-256 { background-color: rgb(240,250,160); }
+.cell-512 { background-color: rgb(200, 251, 152);  }
+.cell-1024 { background-color: #ADD8E6;  }
+.cell-2048 { background-color: #D8BFD8; color:white;}
+.cell-4096 { background-color: #F08080; }
+
+
+
 .horizontal .main { display: flex; }
 .horizontal .block { height: 100%; }
 .horizontal .out { max-width: 120px; word-wrap: break-word; }
