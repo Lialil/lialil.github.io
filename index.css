@@ -72,21 +72,22 @@ a:visited{
   float: left;
   box-sizing: border-box;
   color: #696969; 
-  line-height: 300%;
+  line-height: 330%;
 }
 
 
-.cell-4 { background-color: #F0FFF0; }
-.cell-8 { background-color: rgb(255, 255, 224); }
-.cell-16 { background-color: rgb(220, 248, 255); }
-.cell-32 { background-color: #FFF0F5;  }
-.cell-64 { background-color: #FAEBD7; }
-.cell-128 { background-color: #AFEEEE; }
-.cell-256 { background-color: rgb(240,250,160); }
-.cell-512 { background-color: rgb(200, 251, 152);  }
+.cell-2 { background-color: rgb(220, 255, 230); }
+.cell-4 { background-color: rgb(255, 250, 200); }
+.cell-8 { background-color: rgb(200, 248, 255); }
+.cell-16 { background-color: rgb(255, 220, 245);  }
+.cell-32 { background-color: rgb(255, 225, 205); }
+.cell-64 { background-color: #AFEEEE; }
+.cell-128 { background-color: rgb(240,250,160); }
+.cell-256 { background-color: rgb(200, 251, 152);  }
+.cell-512 { background-color: rgb(226, 181, 226); color:white;}
 .cell-1024 { background-color: #ADD8E6;  }
-.cell-2048 { background-color: #D8BFD8; color:white;}
-.cell-4096 { background-color: #F08080; }
+.cell-2048 { background-color: #F08080; }
+.cell-4096 { background-color: rgb(147, 112, 219); color:white;}
 
 
 
