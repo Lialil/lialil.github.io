@@ -2,7 +2,7 @@ function Game2048(size) {
   this.size = size;
   this.field = [];
 }
-// module.exports.Game2048 = Game2048;
+module.exports.Game2048 = Game2048;
 
 Game2048.prototype.addTwo = function addTwo() {
   const zeroElements = [];
@@ -32,12 +32,12 @@ Game2048.prototype.createRow = function createRow(row) {
 };
 
 Game2048.prototype.changeView = function changeView() {
-  const anotherField = [];
+  const newField = [];
   for (let i = 0; i < this.size; i++) {
     const rowOfField = this.createRow(i);
-    anotherField[i] = rowOfField;
+    newField[i] = rowOfField;
   }
-  return anotherField;
+  return newField;
 };
 
 Game2048.prototype.replaceValueRow = function replaceValueRow(field, row, column) {

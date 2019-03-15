@@ -36,13 +36,11 @@ a:visited{
 #logo {
   font-size: 2em;
   color: #BC8F8F; 
-  
 }
 
 #logo2 {
   font-size: 1em;
 }
-
 
 .out {
   background-color: #fff5ee;
@@ -64,7 +62,7 @@ a:visited{
 
 }
 
-.cell{
+.cellOfField{
   text-align: center;
   background-color: #FFFFFF;
   margin: 1%;
@@ -72,22 +70,18 @@ a:visited{
   float: left;
   box-sizing: border-box;
   color: #696969; 
-  line-height: 330%;
 }
 
+.cell {
+  width: 100%;
+  height: 100%;
+  line-height: 230%;
+}
 
-.cell-2 { background-color: rgb(220, 255, 230); }
-.cell-4 { background-color: rgb(255, 250, 200); }
-.cell-8 { background-color: rgb(200, 248, 255); }
-.cell-16 { background-color: rgb(255, 220, 245);  }
-.cell-32 { background-color: rgb(255, 225, 205); }
-.cell-64 { background-color: #AFEEEE; }
-.cell-128 { background-color: rgb(240,250,160); }
-.cell-256 { background-color: rgb(200, 251, 152);  }
-.cell-512 { background-color: rgb(226, 181, 226); color:white;}
-.cell-1024 { background-color: #ADD8E6;  }
-.cell-2048 { background-color: #F08080; }
-.cell-4096 { background-color: rgb(147, 112, 219); color:white;}
+.swipeCell .cell {
+  transform: translate(-50.6%,0);
+  transition-duration: 5s;
+}
 
 
 
@@ -95,7 +89,7 @@ a:visited{
 .horizontal .block { height: 100%; }
 .horizontal .out { max-width: 120px; word-wrap: break-word; }
 .horizontal .middle { margin: auto; }
-.horizontal .cell { font-size: 7vh; }
+.horizontal .cellOfField { font-size: 7vh; }
 .horizontal .head { border-right: 1px solid #C0C0C0; }
 .horizontal .foot { border-left: 1px solid #C0C0C0; }
   
@@ -104,5 +98,19 @@ a:visited{
 .vertical .out { max-height: 60px; }
 .vertical .foot { bottom: 0; position: absolute; border-top: 1px solid #C0C0C0; }
 .vertical .head { border-bottom: 1px solid #C0C0C0; }
-.vertical .cell { font-size: 7vw; }
+.vertical .cellOfField { font-size: 7vw; }
+
+
+.cell-2 { background-color: rgb(220, 255, 230); }
+.cell-4 { background-color: rgb(255, 250, 200); }
+.cell-8 { background-color: rgb(255, 225, 205); }
+.cell-16 { background-color: rgb(255, 220, 245);  }
+.cell-32 { background-color: rgb(200, 248, 255); }
+.cell-64 { background-color: #AFEEEE; }
+.cell-128 { background-color: rgb(240,250,160); }
+.cell-256 { background-color: rgb(200, 251, 152);  }
+.cell-512 { background-color: rgb(226, 181, 226); color:white;}
+.cell-1024 { background-color: #ADD8E6;  }
+.cell-2048 { background-color: #F08080; }
+.cell-4096 { background-color: rgb(147, 112, 219); color:white;}
  
