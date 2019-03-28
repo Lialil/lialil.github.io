@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const play = new CurrentPage(n, playingField);
 
   document.onkeydown = function choise(event) {
-    console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
     play.userChoise(event.which);
   };
 
