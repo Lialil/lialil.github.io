@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const play = new CurrentPage(n, playingField);
 
   document.onkeydown = function choise(event) {
+    console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
     play.userChoise(event.which);
   };
 
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let distY;
     const threshold = 150;
     const restraint = 100;
+    
     const allowedTime = 300;
     let elapsedTime;
     let startTime;
